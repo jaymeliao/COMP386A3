@@ -58,7 +58,42 @@ public class ProvincialTax extends Tax {
 	}
 
     private double britishcolumbia(double grossIncome) {
-	    return 0.00;
+		//setting up tax percentages and their respective lower bounds
+		double[] taxPercentages = {0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680, 0.2050};
+		double[] lowerBounds = {41725.0, 83451.0, 95812.0, 116344.0, 157748.0, 220000.0};
+
+		//provincialTaxBracket = "10.0% [$0 .. $131,220.01)
+		if (grossIncome >= 0.0 && grossIncome < 41725) {
+			return 0.0506 * grossIncome;
+		}
+
+		//provincialTaxBracket = "12.0% [$131,220.01 .. $157,464.01)
+		else if (grossIncome >= 41725.01 && grossIncome < 83451) {
+			return (grossIncome - 41725.01) * .0770 + computeTaxCategoryPay(taxPercentages, lowerBounds, 0);
+		}
+
+		//provincialTaxBracket = "13.0% [$157,464.01 .. $209,952.01)
+		else if (grossIncome >= 83451.01 && grossIncome < 95812) {
+			return (grossIncome - 83451.01) * .1050 + computeTaxCategoryPay(taxPercentages, lowerBounds, 1);
+		}
+
+		//provincialTaxBracket = "14.0% [$209,952.01 .. $314,928.00)
+		else if (grossIncome > 95812.01 && grossIncome < 116344) {
+			return (grossIncome - 95812.01) * .1229 + computeTaxCategoryPay(taxPercentages, lowerBounds, 2);
+		}
+
+		else if (grossIncome > 116344.01 && grossIncome < 157748) {
+			return (grossIncome - 116344.01) * .1470 + computeTaxCategoryPay(taxPercentages, lowerBounds, 3);
+		}
+
+		else if (grossIncome > 157748.01 && grossIncome < 220000) {
+			return (grossIncome - 157748.01) * .1680 + computeTaxCategoryPay(taxPercentages, lowerBounds, 4);
+		}
+
+		//provincialTaxBracket = "15.0% [$314,928.01 .. )
+		else {
+			return (grossIncome - 220000) * .2050 + computeTaxCategoryPay(taxPercentages, lowerBounds, 5);
+		}
     }
 
     /**

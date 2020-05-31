@@ -59,26 +59,27 @@ public class TestTaxCalculator {
 		// These should fail as the methods for BC havent been configured yet
 
 		ProvincialTax bcTax = new ProvincialTax(bcEmployee);
+		double taxAmount;
 
 		assertEquals(1518.00, bcEmployee.totalDeductions(), 0);
 
-		bcEmployee.setGrossIncome(50000.00);
-		assertEquals(2748.46, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(50000.00, "british columbia");
+		assertEquals(2748.46, taxAmount, 0.01);
 
-		bcEmployee.setGrossIncome(90000.00);
-		assertEquals(6011.832, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(90000.00, "british columbia");
+		assertEquals(6011.83, taxAmount, 0.01);
 
-		bcEmployee.setGrossIncome(100000.00);
-		assertEquals(7136.7972, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(100000.00, "british columbia");
+		assertEquals(7136.79, taxAmount, 0.01);
 
-		bcEmployee.setGrossIncome(150000.00);
-		assertEquals(14092.9068, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(150000.00, "british columbia");
+		assertEquals(14092.90, taxAmount, 0.01);
 
-		bcEmployee.setGrossIncome(200000.00);
-		assertEquals(22330.1988, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(200000.00, "british columbia");
+		assertEquals(22330.19, taxAmount, 0.01);
 
-		bcEmployee.setGrossIncome(300000.00);
-		assertEquals(42090.1988, bcEmployee.totalDeductions(), 0);
+		taxAmount = bcTax.computeTaxes(300000.00, "british columbia");
+		assertEquals(42090.19, taxAmount, 0.01);
 	}
 	
 	@Test
