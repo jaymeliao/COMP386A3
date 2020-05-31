@@ -16,6 +16,9 @@ public class TestTaxCalculator {
 	private static Utility utility;
 	private Province province;
 	private Employee employee;
+
+	private Province bc;
+	private Employee bcEmployee;
 		
 	@Before
 	public void setup() {
@@ -23,6 +26,10 @@ public class TestTaxCalculator {
 		utility = new Utility();
 		province = new Province("alberta");
 		employee = new Employee("Opeyemi Adesina", 22, 55000.00, province);
+
+		// For BC tests
+		bc = new Province("British Columbia");
+		bcEmployee = new Employee("Tom Riddle", 40, 30000.00, bc);
 	}
 		
 	@Test
@@ -46,6 +53,32 @@ public class TestTaxCalculator {
 		
 		ProvincialTax provincialTax = new ProvincialTax(employee); //5500 CAD
 		assertEquals(5500, employee.totalDeductions(), 0);
+
+		// Donovan Ollenberger-Kutzer
+		// Testing BC
+		// These should fail as the methods for BC havent been configured yet
+
+		ProvincialTax bcTax = new ProvincialTax(bcEmployee);
+
+		assertEquals(1518.00, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(50000.00);
+		assertEquals(2748.46, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(90000.00);
+		assertEquals(6011.832, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(100000.00);
+		assertEquals(7136.7972, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(150000.00);
+		assertEquals(14092.9068, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(200000.00);
+		assertEquals(22330.1988, bcEmployee.totalDeductions(), 0);
+
+		bcEmployee.setGrossIncome(300000.00);
+		assertEquals(42090.1988, bcEmployee.totalDeductions(), 0);
 	}
 	
 	@Test
@@ -74,7 +107,7 @@ public class TestTaxCalculator {
 		assertEquals(4, employee.getDeductions().size());
 		assertEquals(17849.43, employee.totalDeductions(), 0);
 
-		// Donovan's Tests B)
+		// Donovan Ollenberger-Kutzer's Tests)
 		Province emptyProvince = null;
 		assertThrows(RuntimeException.class, () -> new Employee("Jim", 12, 13000.00, province));
 		assertThrows(RuntimeException.class, () -> new Employee("Bob", 19, -10.00, province));

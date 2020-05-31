@@ -40,7 +40,7 @@ protected double computeTaxCategoryPay(double [] taxPercentages, double [] lower
  //defensive programming
 		assert isIncreasing( taxPercentages ) == true : "Unacceptable tax brackets -- should be of length 4 and must be in increasing order";
 		assert isIncreasing( lowerBounds ) == true : "Unacceptable tax brackets -- should be of length 4 and must be in increasing order";
-		assert depth >= 0 && depth < 4 : "Acceptable tax depth ranges between [0 .. 3]";
+		assert depth >= 0 && depth < 5 : "Acceptable tax depth ranges between [0 .. 3]";
 		
 		//computes taxes recursively level by level
 		switch( depth ) {
@@ -52,6 +52,8 @@ protected double computeTaxCategoryPay(double [] taxPercentages, double [] lower
 				return ( lowerBounds[2] - lowerBounds[1] ) * taxPercentages[2] + computeTaxCategoryPay( taxPercentages, lowerBounds, 1 );
 			case 3 : 
 				return ( lowerBounds[3] - lowerBounds[2] ) * taxPercentages[3] + computeTaxCategoryPay( taxPercentages, lowerBounds, 2 );
+			case 4 :
+				return ( lowerBounds[4] - lowerBounds[3] ) * taxPercentages[4] + computeTaxCategoryPay( taxPercentages, lowerBounds, 3 );
 			default :
 				return 0;
 		}
