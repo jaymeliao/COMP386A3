@@ -1,6 +1,9 @@
 package TaxDemo.com.tax.domain.elements;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author Opeyemi Adesina
@@ -246,10 +249,10 @@ public class Employee {
 
 
 	public String toString() {
-		return super.toString() + "[" +
+		return "[" +
 				"name" + ":" + getName() + "," +
 				"age" + ":" + getAge() + "," +
-				"grossIncome" + ":" + getGrossIncome() + "]" + System.getProperties().getProperty("line.separator") +
-				"  " + "worksIn = " + (getWorksIn() != null ? Integer.toHexString(System.identityHashCode(getWorksIn())) : "null");
+				"grossIncome" + ":" + getGrossIncome() + "]\n" +
+				"  " + "worksIn = " + (getWorksIn() != null ? getWorksIn().toString() : "null");
 	}
 }

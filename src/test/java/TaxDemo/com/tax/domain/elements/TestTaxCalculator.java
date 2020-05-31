@@ -73,6 +73,26 @@ public class TestTaxCalculator {
 
 		assertEquals(4, employee.getDeductions().size());
 		assertEquals(17849.43, employee.totalDeductions(), 0);
+
+		// Donovan's Tests B)
+		Province emptyProvince = null;
+		assertThrows(RuntimeException.class, () -> new Employee("Jim", 12, 13000.00, province));
+		assertThrows(RuntimeException.class, () -> new Employee("Bob", 19, -10.00, province));
+		assertThrows(RuntimeException.class, () -> new Employee("Bob", 19, 50000.00, emptyProvince));
+
+		assertEquals(37150.57, employee.netIncome(), 0);
+
+		assertEquals(0, employee.minimumNumberOfDeductions());
+
+		assertEquals(ei, employee.getDeduction(0));
+
+		employee.addOrMoveDeductionAt(ei, 3);
+		assertEquals(3, employee.indexOfDeduction(ei));
+		assertFalse(employee.addDeductionAt(ei, 4));
+
+		assertEquals("[name:Opeyemi Adesina,age:22.0,grossIncome:55000.0]\n" +
+				"  worksIn = [name:alberta]", employee.toString());
+
 	}
 		
 	@After

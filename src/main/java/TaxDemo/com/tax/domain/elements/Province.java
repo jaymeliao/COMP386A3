@@ -44,7 +44,7 @@ public void delete()
 
 public String toString()
 {
- return super.toString() + "["+
+ return "["+
          "name" + ":" + getName()+ "]";
 }
 }
