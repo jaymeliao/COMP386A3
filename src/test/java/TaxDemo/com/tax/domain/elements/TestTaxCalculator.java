@@ -25,6 +25,9 @@ public class TestTaxCalculator {
     private Province manitoba;
     private Employee manitobaEmployee;
 
+    private Province ontario;
+    private Employee onEmployee;
+
     @Before
     public void setup() {
 
@@ -39,6 +42,10 @@ public class TestTaxCalculator {
         // For Manitoba tests
         manitoba = new Province("Manitoba");
         manitobaEmployee = new Employee("Spongebob", 21, 40000.00, manitoba);
+
+        // For Ontario tests
+        ontario = new Province("Ontario");
+        onEmployee = new Employee("Winston Churchill", 50, 70000.00, ontario);
     }
 
     @Test
@@ -48,6 +55,7 @@ public class TestTaxCalculator {
         Assert.assertEquals("alberta", province.getName());
         province.setName("manitoba");
         Assert.assertEquals("manitoba", province.getName());
+        province.setName("ontario");
     }
 
     @Test
@@ -102,6 +110,26 @@ public class TestTaxCalculator {
 
         taxAmount = bcTax.computeTaxes(80000.00, "Manitoba");
         assertEquals(9913.29, taxAmount, 0.01);
+
+        // Mitchell Calder
+        // Testing Ontario
+
+        ProvincialTax onTax = new ProvincialTax(onEmployee);
+
+        taxAmount = onTax.computeTaxes(40000.00, "Ontario");
+        assertEquals(2020.00, taxAmount, 0.01);
+
+        taxAmount = onTax.computeTaxes(80000.00, "Ontario");
+        assertEquals(5761.53, taxAmount, 0.01);
+
+        taxAmount = onTax.computeTaxes(100000.00, "Ontario");
+        assertEquals(7527.07, taxAmount, 0.01);
+
+        taxAmount = onTax.computeTaxes(160000.00, "Ontario");
+        assertEquals(14323.07, taxAmount, 0.01);
+
+        taxAmount = onTax.computeTaxes(250000.00, "Ontario");
+        assertEquals(25567.07, taxAmount, 0.01);
     }
 
     @Test
@@ -122,10 +150,11 @@ public class TestTaxCalculator {
     public void testDeduction() {
         Deduction deduction = new Deduction(employee);
         ProvincialTax tax = new ProvincialTax(employee);
-		CanadianPensionPlan cpp = new CanadianPensionPlan(employee); //2887.50
-		EmploymentInsurance ei = new EmploymentInsurance(employee);
 
-		assertEquals(0, deduction.getAmount(), 0);
+        CanadianPensionPlan cpp = new CanadianPensionPlan(employee); //2887.50
+        EmploymentInsurance ei = new EmploymentInsurance(employee);
+
+        assertEquals(0, deduction.getAmount(), 0);
         deduction.setAmount(500.00);
         assertEquals(500.00, deduction.getAmount(), 0);
 
@@ -155,10 +184,10 @@ public class TestTaxCalculator {
         assertEquals(employee, deduction.getEmployee());
 
         assertEquals("[amount:500.0]\n" +
-				"  canadianPensionPlan = 2887.5\n" +
-				"  employmentInsurance = 856.36\n" +
-				"  employee = [name:Opeyemi Adesina,age:22.0,grossIncome:55000.0]\n" +
-				"  worksIn = [name:alberta]", deduction.toString());
+                "  canadianPensionPlan = 2887.5\n" +
+                "  employmentInsurance = 856.36\n" +
+                "  employee = [name:Opeyemi Adesina,age:22.0,grossIncome:55000.0]\n" +
+                "  worksIn = [name:alberta]", deduction.toString());
 
     }
 

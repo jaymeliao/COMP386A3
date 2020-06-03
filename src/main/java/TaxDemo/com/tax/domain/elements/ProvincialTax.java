@@ -52,6 +52,8 @@ public class ProvincialTax extends Tax {
 				return 0.0;
 			case "newfoundland":
 				return 0.0;
+			case "ontario":
+				return 0.0;
 			default:
 				return 0.0;
 		}
