@@ -43,9 +43,9 @@ public class ProvincialTax extends Tax {
 			case "alberta":
 				return alberta(grossIncome);
 			case "british columbia":
-				return britishcolumbia(grossIncome);
+				return britishColumbia(grossIncome);
 			case "manitoba":
-				return 0.0;
+				return manitoba(grossIncome);
 			case "quebec":
 				return 0.0;
 			case "saskatchewan":
@@ -58,7 +58,7 @@ public class ProvincialTax extends Tax {
 	}
 
 	// Donovan Ollenberger-Kutzer
-    private double britishcolumbia(double grossIncome) {
+    private double britishColumbia(double grossIncome) {
 		//setting up tax percentages and their respective lower bounds
 		double[] taxPercentages = {0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680, 0.2050};
 		double[] lowerBounds = {41725.0, 83451.0, 95812.0, 116344.0, 157748.0, 220000.0};
@@ -98,6 +98,28 @@ public class ProvincialTax extends Tax {
 			return (grossIncome - 220000) * .2050 + computeTaxCategoryPay(taxPercentages, lowerBounds, 5);
 		}
     }
+
+	// Akash Davesar
+	private double manitoba(double grossIncome) {
+		//setting up tax percentages and their respective lower bounds
+		double[] taxPercentages = {0.108, 0.1275, 0.1740};
+		double[] lowerBounds = {33389.00, 72164.00};
+
+		//provincialTaxBracket = "10.8% [$0 .. $33389)
+		if (grossIncome >= 0.0 && grossIncome < 33389.00) {
+			return 0.108 * grossIncome;
+		}
+
+		//provincialTaxBracket = "12.75% [$33389 .. $72164)
+		else if (grossIncome >= 33389.00 && grossIncome < 72164.00) {
+			return (grossIncome - 33389.00) * 0.1275 + computeTaxCategoryPay(taxPercentages, lowerBounds, 0);
+		}
+
+		//provincialTaxBracket = "17.4% [$72164 .. )
+		else {
+			return (grossIncome - 72164) * .1740 + computeTaxCategoryPay(taxPercentages, lowerBounds, 1);
+		}
+	}
 
     /**
 	 * operation computes provincial taxes for the the province of alberta
