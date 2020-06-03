@@ -53,14 +53,14 @@ public class ProvincialTax extends Tax {
 			case "newfoundland":
 				return 0.0;
 			case "ontario":
-				return 0.0;
+				return ontario(grossIncome);
 			default:
 				return 0.0;
 		}
 	}
 
 	// Donovan Ollenberger-Kutzer
-    private double britishColumbia(double grossIncome) {
+	private double britishColumbia(double grossIncome) {
 		//setting up tax percentages and their respective lower bounds
 		double[] taxPercentages = {0.0506, 0.0770, 0.1050, 0.1229, 0.1470, 0.1680, 0.2050};
 		double[] lowerBounds = {41725.0, 83451.0, 95812.0, 116344.0, 157748.0, 220000.0};
@@ -99,7 +99,7 @@ public class ProvincialTax extends Tax {
 		else {
 			return (grossIncome - 220000) * .2050 + computeTaxCategoryPay(taxPercentages, lowerBounds, 5);
 		}
-    }
+	}
 
 	// Akash Davesar
 	private double manitoba(double grossIncome) {
@@ -123,7 +123,39 @@ public class ProvincialTax extends Tax {
 		}
 	}
 
-    /**
+	// Mitchell Calder
+	private double ontario(double grossIncome) {
+		//setting up tax percentages and their respective lower bounds
+		double[] taxPercentages = {0.0505, 0.0915, 0.1116, 0.1216, 0.1316};
+		double[] lowerBounds = {44740.01, 89482.01, 150000.01, 220000.01};
+
+		//provincialTaxBracket = "5.05% [$0 .. $44740.00)
+		if (grossIncome >= 0.0 && grossIncome <= 44740.00) {
+			return 0.0505 * grossIncome;
+		}
+
+		//provincialTaxBracket = "9.15% [$44740.01 .. $89482.00)
+		else if (grossIncome > 41725.0 && grossIncome <= 89482.00) {
+			return (grossIncome - 41725.0) * .0915 + computeTaxCategoryPay(taxPercentages, lowerBounds, 0);
+		}
+
+		//provincialTaxBracket = "11.16% [$89482.01 .. $150000.00)
+		else if (grossIncome > 89482.0 && grossIncome <= 150000.00) {
+			return (grossIncome - 89482.00) * .1116 + computeTaxCategoryPay(taxPercentages, lowerBounds, 1);
+		}
+
+		//provincialTaxBracket = "12.16% [$150000.01 .. $220000)
+		else if (grossIncome > 150000.00 && grossIncome <= 220000.00) {
+			return (grossIncome - 150000.00) * .1216 + computeTaxCategoryPay(taxPercentages, lowerBounds, 2);
+		}
+
+		//provincialTaxBracket = "13.16% [$220000.01 .. )
+		else {
+			return (grossIncome - 220000) * .1316 + computeTaxCategoryPay(taxPercentages, lowerBounds, 3);
+		}
+	}
+
+	/**
 	 * operation computes provincial taxes for the the province of alberta
 	 *
 	 * @param grossIncome employee's gross income prior to any tax deduction
