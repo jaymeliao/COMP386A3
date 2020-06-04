@@ -28,6 +28,10 @@ public class TestTaxCalculator {
     private Province ontario;
     private Employee onEmployee;
 
+    private Province quebec;
+    private Province newfoundland;
+    private Province none;
+
     @Before
     public void setup() {
 
@@ -56,6 +60,7 @@ public class TestTaxCalculator {
         province.setName("manitoba");
         Assert.assertEquals("manitoba", province.getName());
         province.setName("ontario");
+        Assert.assertEquals("ontario", province.getName());
     }
 
     @Test
@@ -130,13 +135,57 @@ public class TestTaxCalculator {
 
         taxAmount = onTax.computeTaxes(250000.00, "Ontario");
         assertEquals(25567.07, taxAmount, 0.01);
+
+        // Testing unimplemented Provinces
+
+        quebec = new Province("Quebec");
+        Employee unimEmployee = new Employee ("John Doe", 21, 50000, quebec);
+        ProvincialTax qTax = new ProvincialTax(unimEmployee);
+        taxAmount = qTax.computeTaxes(50000, "Quebec");
+        assertEquals(0, taxAmount, 0);
+
+        newfoundland = new Province("Newfoundland");
+        unimEmployee = new Employee ("John Doe", 21, 50000, newfoundland);
+        ProvincialTax nTax = new ProvincialTax(unimEmployee);
+        taxAmount = nTax.computeTaxes(50000, "Newfoundland");
+        assertEquals(0, taxAmount, 0);
+
+        none = new Province("Default");
+        unimEmployee = new Employee ("John Doe", 21, 50000, none);
+        ProvincialTax noTax = new ProvincialTax(unimEmployee);
+        taxAmount = noTax.computeTaxes(50000, "Default");
+        assertEquals(0, taxAmount, 0);
+//        case "quebec":
+//        return 0.0;
+//        case "newfoundland":
+//        return 0.0;
+//        default:
+//        return 0.0;
     }
 
     @Test
     public void testFederalTax() {
 
-        FederalTax federalTax = new FederalTax(employee); //8605.57
-        assertEquals(8605.57, employee.totalDeductions(), 0);
+        employee = new Employee("Opeyemi Adesina", 22, 22000.00, province);
+        FederalTax federalTax = new FederalTax(employee);
+        assertEquals(3300.0, employee.totalDeductions(), 0);
+
+        employee = new Employee("Opeyemi Adesina", 22, 50000.00, province);
+        federalTax = new FederalTax(employee);
+        assertEquals(7580.57, employee.totalDeductions(), 0);
+
+        employee = new Employee("Opeyemi Adesina", 22, 100000.00, province);
+        federalTax = new FederalTax(employee);
+        assertEquals(17991.78, employee.totalDeductions(), 0);
+
+        employee = new Employee("Opeyemi Adesina", 22, 160000.00, province);
+        federalTax = new FederalTax(employee);
+        assertEquals(33877.59, employee.totalDeductions(), 0);
+
+        employee = new Employee("Opeyemi Adesina", 22, 230000.00, province);
+        federalTax = new FederalTax(employee);
+        assertEquals(54802.87, employee.totalDeductions(), 0);
+
     }
 
     @Test
