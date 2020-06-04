@@ -270,6 +270,16 @@ public class TestTaxCalculator {
         assertEquals("[name:Opeyemi Adesina,age:22.0,grossIncome:55000.0]\n" +
                 "  worksIn = [name:alberta]", employee.toString());
 
+        //Testing employee setters
+
+        assertTrue(employee.setName("Test"));
+        assertTrue(employee.setAge(15));
+        assertTrue(employee.setGrossIncome(50000));
+
+        //Testing employee getters
+
+        assertTrue(employee.hasDeductions());
+
     }
 
     @After
