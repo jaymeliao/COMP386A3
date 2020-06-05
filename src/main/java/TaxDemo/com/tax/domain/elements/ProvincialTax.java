@@ -154,6 +154,29 @@ public class ProvincialTax extends Tax {
 			return (grossIncome - 220000) * .1316 + computeTaxCategoryPay(taxPercentages, lowerBounds, 3);
 		}
 	}
+	
+	// Jayme Liao	
+
+	private double saskatchewan(double grossIncome){
+	 //setting up tax percentages and their respective lower bounds
+		 double [] taxPercentages = {0.1005, 0.125, 0.145};
+		 double [] lowerBounds = {45225.0, 129214.0};
+		 
+			//provincialTaxBracket = "10.5% [$0 .. $45225.0)
+		 if (grossIncome >= 0.0 && grossIncome < 45225.0) {
+				return 0.1005 * grossIncome;
+		}
+	
+			//provincialTaxBracket = "12.50% [$45225.0 .. $129214.0)
+		else if (grossIncome >= 45225.0 && grossIncome < 129214.0) {
+				return (grossIncome - 45225.0) * 0.125 + computeTaxCategoryPay(taxPercentages, lowerBounds, 0);
+		}
+	
+			//provincialTaxBracket = "14.5% [$129214 .. )
+		else {
+				return (grossIncome - 129214.0) * 0.1450 + computeTaxCategoryPay(taxPercentages, lowerBounds, 1);
+		}
+	}
 
 	/**
 	 * operation computes provincial taxes for the the province of alberta
